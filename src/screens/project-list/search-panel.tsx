@@ -1,6 +1,7 @@
 import { Input, Select } from 'antd';
+import { Form } from 'antd';
 import React from 'react'
-
+import { jsx , css } from '@emotion/react'
 export interface User {
   id: string;
   name: string;
@@ -20,22 +21,41 @@ interface SearchPanelProps {
 }
 
 export const SearchPanel = (props: SearchPanelProps) => {
-  const {users, param, setParam} = props;
-  return <form>
-    <div>
-      <Input type="text" value={param.name} onChange={e => setParam({
-        ...param,
-        name: e.target.value
-      })} />
-      <Select style={{ width: 120 }} value={param.personId} onChange={value => setParam({
-        ...param,
-        personId: value
-      })} >
+  const { users, param, setParam } = props;
+  return (
+    <Form style={{ marginBottom: '2rem' }} layout={'inline'}>
+    <Form.Item>
+      <Input
+        placeholder={'项目名'}
+        type="text"
+        value={param.name}
+        onChange={e =>
+          setParam({
+            ...param,
+            name: e.target.value
+          })
+        }
+      />
+    </Form.Item>
+    <Form.Item>
+      <Select
+        style={{ width: 80 }}
+        value={param.personId}
+        onChange={value =>
+          setParam({
+            ...param,
+            personId: value
+          })
+        }
+      >
         <Select.Option value={''}>负责人</Select.Option>
         {
           users.map(user => <Select.Option key={user.id} value={user.id}>{user.name}</Select.Option>)
         }
       </Select>
-    </div>
-  </form>
+    </Form.Item>
+
+  </Form>
+  )
+  
 }
