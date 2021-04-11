@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 import { ProjectListScreen } from 'screens/project-list'
 import { Row } from 'components/lib';
 import { ReactComponent as SoftwareLogo } from 'assets/software-logo.svg'
-import { Dropdown, Menu } from 'antd';
+import { Button, Dropdown, Menu } from 'antd';
 /**
  * grid 和 flex 各自的应用场景
  * 1. 要考虑，是一维布局，还是二维布局
@@ -28,12 +28,12 @@ export const AuthenticateApp = () => {
       <HeaderRight>
         <Dropdown overlay={<Menu>
           <Menu.Item key={'logout'}>
-            <a onClick={logout}>登出</a>
+            <Button type={'link'}>登出</Button>
           </Menu.Item>
         </Menu>}>
-          <a onClick={e => e.preventDefault()}>
+          <Button type={'link'} onClick={e => e.preventDefault()}>
             Hi, {user?.name}
-          </a>
+          </Button>
         </Dropdown>
       </HeaderRight>
     </Header>
