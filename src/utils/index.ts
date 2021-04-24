@@ -29,6 +29,7 @@ export const useDebounce = <V>(value: V, delay?: number) => {
 
   useEffect(() => {
     const timeout = setTimeout(() => setDebounceValue(value), delay)
+    // 每次函数更新，就会触发前一个 useEffect 返回的方法
     return () => clearTimeout(timeout)
   }, [value, delay])
 
