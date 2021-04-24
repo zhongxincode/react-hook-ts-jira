@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const isFalse = (value: unknown): boolean =>
   value === 0 ? false : !value;
@@ -38,9 +38,13 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   return debounceValue;
 };
 
-export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) => {
-  const oldTitle = document.title
-
+export const useDocumentTitle = (
+  title: string,
+  keepOnUnmount: boolean = true
+) => {
+  const oldTitle = useRef(document.title).current;
+  // 页面加载时： 旧title
+  // 加载后：新title
   useEffect(() => {
     document.title = title;
   }, [title]);
@@ -48,8 +52,9 @@ export const useDocumentTitle = (title: string, keepOnUnmount: boolean = true) =
   useEffect(() => {
     return () => {
       if (!keepOnUnmount) {
-        document.title = oldTitle
+        // 如果不指定依赖，读到的就是旧title
+        document.title = oldTitle;
       }
-    }  
+    };
   }, []);
 };
