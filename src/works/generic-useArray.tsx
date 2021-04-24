@@ -27,7 +27,7 @@ export const GenericUseArray = () => {
       <button onClick={() => clear()} style={{marginBottom: '50px'}} >clear</button>
       {
         value.map((person, index) => (
-          <div style={{marginBottom: '30px'}}>
+          <div style={{marginBottom: '30px'}} key={person.name}>
             <span style={{color: 'red'}} >{index}</span>
             <span>{person.name}</span>
             <span>{person.age}</span>

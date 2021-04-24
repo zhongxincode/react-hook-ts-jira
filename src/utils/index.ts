@@ -11,7 +11,6 @@ export const cleanObject = (object: { [key: string]: unknown }) => {
   Object.keys(result).forEach((key) => {
     const value = result[key];
     if (isVoid(value)) {
-      console.log(key);
       delete result[key];
     }
   });
@@ -58,3 +57,5 @@ export const useDocumentTitle = (
     };
   }, []);
 };
+
+export const resetRoute = () => window.location.href = window.location.origin
