@@ -1,9 +1,12 @@
-import { Input, Select } from "antd";
+import { Input } from "antd";
 import { Form } from "antd";
 import React from "react";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { jsx, css } from "@emotion/react";
+import { Project } from "./list";
+import { UserSelect } from "components/user-select";
 export interface User {
-  id: string;
+  id: number;
   name: string;
   email: string;
   title: string;
@@ -13,10 +16,7 @@ export interface User {
 
 interface SearchPanelProps {
   users: User[];
-  param: {
-    name: string;
-    personId: string;
-  };
+  param: Partial<Pick<Project, "name" | "personId">>;
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 
@@ -38,23 +38,16 @@ export const SearchPanel = (props: SearchPanelProps) => {
         />
       </Form.Item>
       <Form.Item>
-        <Select
-          style={{ width: 80 }}
+        <UserSelect
+          defaultOptionName={'负责人'}
           value={param.personId}
-          onChange={(value) =>
+          onChange={(value: number | undefined) =>
             setParam({
               ...param,
               personId: value,
             })
           }
-        >
-          <Select.Option value={""}>负责人</Select.Option>
-          {users.map((user) => (
-            <Select.Option key={user.id} value={String(user.id)}>
-              {user.name}
-            </Select.Option>
-          ))}
-        </Select>
+        />
       </Form.Item>
     </Form>
   );
