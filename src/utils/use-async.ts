@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useMountedRef } from "utils";
 
 interface State<D> {
   error: Error | null;
@@ -17,6 +18,8 @@ export const useAsync = <D>(initialState?: State<D>) => {
     ...defaultInitialState,
     ...initialState,
   });
+
+  const mountedRef = useMountedRef()
 
   const [retry, setRetry] = useState(() => () => {});
 
@@ -50,7 +53,9 @@ export const useAsync = <D>(initialState?: State<D>) => {
     return (
       promise
         .then((data) => {
-          setData(data);
+          if (mountedRef.current) {
+            setData(data)
+          }
           return data;
         })
         // 在login页面中使用useAsync不能正确的显示异常？ catch会消化异常，如果不主动抛出，外面式接受不到异常的
