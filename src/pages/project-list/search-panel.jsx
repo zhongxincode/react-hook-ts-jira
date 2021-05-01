@@ -1,6 +1,6 @@
 export const SearchPanel = ({ users, param, setParam }) => {
   return (
-    <form action="#/">
+    <form>
       <div>
         {/* setParam(Object.assign({}, param, {name: evt.target.value})) */}
         <input
