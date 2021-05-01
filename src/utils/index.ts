@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 
 // ! 指对一个值求反，!! 表示对反求反，也就是value的布尔值
-export const isFalse = (value) => (value === 0 ? false : !value);
+export const isFalse = (value: any) => (value === 0 ? false : !value);
 // 在一个函数里，改变传入的对象本身是不好的
-export const cleanObject = (obj) => {
+export const cleanObject = (obj: object) => {
   const result = { ...obj };
   Object.keys(result).forEach((key) => {
+    // @ts-ignore
     const value = result[key];
     if (isFalse(value)) {
+      // @ts-ignore
       delete result[key];
     }
   });
@@ -15,7 +17,7 @@ export const cleanObject = (obj) => {
 };
 
 // 在页面刚加载的时候，执行的hook
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
   }, []);
@@ -47,7 +49,7 @@ export const useMount = (callback) => {
 //     log()#3 // 发现 timeout#2! 取消之，然后设置timeout#3
 //             // 所以，log()#3 结束后，就只剩timeout#3在独自等待了
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
 
   useEffect(() => {
@@ -57,6 +59,5 @@ export const useDebounce = (value, delay) => {
     return () => clearTimeout(timeout);
   }, [value, delay]);
 
-  console.log(debouncedValue);
   return debouncedValue;
 };

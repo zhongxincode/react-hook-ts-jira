@@ -14,7 +14,7 @@ export const ProjectList = () => {
 
   const [list, setList] = useState([]);
 
-  const debouncedParam = useDebounce(param, 2000);
+  const debouncedParam = useDebounce(param, 200);
 
   // 当输入框改变，setParam就设置新的param值，
   // param 一旦发生变化，useEffect就重新执行，请求list数据
