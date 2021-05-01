@@ -7,6 +7,8 @@
 /* eslint-disable */
 /* tslint:disable */
 
+// imooc-jira-tool
+
 const INTEGRITY_CHECKSUM = '82ef9b96d8393b6da34527d1d6e19187'
 const bypassHeaderName = 'x-msw-bypass'
 const activeClientIds = new Set()
