@@ -1,4 +1,5 @@
 import { FormEvent } from "react";
+import { login } from "../../auth-provider";
 
 // interface Base {
 //   id: number
@@ -15,22 +16,8 @@ import { FormEvent } from "react";
 // const a = {id: 1, name: 'jack'}
 // test(a)
 
-const apiUrl = process.env.REACT_APP_API_URL;
 
 export const Login = () => {
-
-  const login = (param: { username: string; password: string }) => {
-    fetch(`${apiUrl}/login`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(param),
-    }).then(async (response) => {
-      if (response.ok) {
-      }
-    });
-  };
 
   // HTMLFormElement extends Element
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
