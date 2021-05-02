@@ -1,3 +1,4 @@
+import styled from "@emotion/styled";
 import { useState, useEffect } from "react";
 import { cleanObject, useDebounce, useMount } from "../../utils";
 import { useHttp } from "../../utils/http";
@@ -16,7 +17,7 @@ export const ProjectList = () => {
 
   const debouncedParam = useDebounce(param, 200);
 
-  const client = useHttp()
+  const client = useHttp();
   // 当输入框改变，setParam就设置新的param值，
   // param 一旦发生变化，useEffect就重新执行，请求list数据
 
@@ -27,17 +28,22 @@ export const ProjectList = () => {
    */
 
   useEffect(() => {
-    client('projects', {data: cleanObject(debouncedParam)}).then(setList)
+    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
   }, [debouncedParam]);
 
   useMount(() => {
-    client('users').then(setUsers)
+    client("users").then(setUsers);
   });
 
   return (
-    <div>
+    <Container>
+      <h1>项目列表</h1>
       <SearchPanel users={users} param={param} setParam={setParam} />
       <List users={users} list={list} />
-    </div>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  padding: 3.2rem;
+`;
