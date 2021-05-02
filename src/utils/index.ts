@@ -2,13 +2,17 @@ import { useEffect, useState } from "react";
 
 // ! 指对一个值求反，!! 表示对反求反，也就是value的布尔值
 export const isFalse = (value: unknown) => (value === 0 ? false : !value);
+
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
+
 // 在一个函数里，改变传入的对象本身是不好的
 export const cleanObject = (obj: object) => {
   const result = { ...obj };
   Object.keys(result).forEach((key) => {
     // @ts-ignore
     const value = result[key];
-    if (isFalse(value)) {
+    if (isVoid(value)) {
       // @ts-ignore
       delete result[key];
     }
@@ -20,6 +24,7 @@ export const cleanObject = (obj: object) => {
 export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    //  eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
 
