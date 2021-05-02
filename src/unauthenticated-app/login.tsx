@@ -1,5 +1,6 @@
 import { useAuth } from "../context/auth-context";
-import { Form, Input, Button } from "antd";
+import { Form, Input } from "antd";
+import { LongButton } from ".";
 
 // interface Base {
 //   id: number
@@ -38,9 +39,9 @@ export const Login = () => {
         <Input type="password" id={"password"} placeholder={"密码"} />
       </Form.Item>
       <Form.Item>
-        <Button htmlType={"submit"} type={"primary"}>
+        <LongButton htmlType={"submit"} type={"primary"}>
           登录
-        </Button>
+        </LongButton>
       </Form.Item>
     </Form>
   );
