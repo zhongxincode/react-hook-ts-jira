@@ -1852,7 +1852,7 @@
 
 "@types/cookie@^0.4.0":
   version "0.4.0"
-  resolved "https://registry.npm.taobao.org/@types/cookie/download/@types/cookie-0.4.0.tgz?cache=0&sync_timestamp=1613378327079&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2F%40types%2Fcookie%2Fdownload%2F%40types%2Fcookie-0.4.0.tgz#14f854c0f93d326e39da6e3b6f34f7d37513d108"
+  resolved "https://registry.npm.taobao.org/@types/cookie/download/@types/cookie-0.4.0.tgz#14f854c0f93d326e39da6e3b6f34f7d37513d108"
   integrity sha1-FPhUwPk9Mm452m47bzT303UT0Qg=
 
 "@types/eslint@^7.2.6":
@@ -8193,7 +8193,7 @@ no-case@^3.0.4:
 
 node-fetch@^2.6.1:
   version "2.6.1"
-  resolved "https://registry.npm.taobao.org/node-fetch/download/node-fetch-2.6.1.tgz?cache=0&sync_timestamp=1599309202591&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-fetch%2Fdownload%2Fnode-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  resolved "https://registry.npm.taobao.org/node-fetch/download/node-fetch-2.6.1.tgz?cache=0&sync_timestamp=1599309179354&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fnode-fetch%2Fdownload%2Fnode-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
   integrity sha1-BFvTI2Mfdu0uK1VXM5RBa2OaAFI=
 
 node-forge@^0.10.0:
@@ -11408,7 +11408,7 @@ static-extend@^0.1.1:
 
 statuses@^2.0.0:
   version "2.0.1"
-  resolved "https://registry.nlark.com/statuses/download/statuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
+  resolved "https://registry.npm.taobao.org/statuses/download/statuses-2.0.1.tgz?cache=0&sync_timestamp=1609654014762&other_urls=https%3A%2F%2Fregistry.npm.taobao.org%2Fstatuses%2Fdownload%2Fstatuses-2.0.1.tgz#55cb000ccf1d48728bd23c685a063998cf1a1b63"
   integrity sha1-VcsADM8dSHKL0jxoWgY5mM8aG2M=
 
 stealthy-require@^1.1.1:
