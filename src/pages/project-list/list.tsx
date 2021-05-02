@@ -1,3 +1,4 @@
+import { Table } from "antd";
 import { User } from "./search-panel";
 
 interface Project {
@@ -14,24 +15,30 @@ interface ListProps {
 }
 export const List = ({ list, users }: ListProps) => {
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>名称</th>
-          <th>负责人</th>
-        </tr>
-      </thead>
-      <tbody>
-        {list.map((project) => (
-          <tr key={project.id}>
-            <td>{project.name}</td>
-            <td key={project.id}>
-              {users.find((user) => user.id === project.personId)?.name ||
-                "未知"}
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
+    <Table
+      pagination={false}
+      columns={[
+        {
+          title: "名称",
+          dataIndex: "name",
+          sorter: (a, b) => a.name.localeCompare(b.name),
+        },
+        {
+          title: "负责人",
+          // render
+          // 生成复杂数据的渲染函数，参数分别为当前行的值，当前行数据，行索引，@return 里面可以设置表格行/列合并
+          // function(text, record, index) {}
+          render(value, project) {
+            return (
+              <span>
+                {users.find((user) => user.id === project.personId)?.name ||
+                  "未知"}
+              </span>
+            );
+          },
+        },
+      ]}
+      dataSource={list}
+    />
   );
 };
