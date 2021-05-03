@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 // ! 指对一个值求反，!! 表示对反求反，也就是value的布尔值
 export const isFalse = (value: unknown) => (value === 0 ? false : !value);
@@ -72,18 +72,21 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   return debouncedValue;
 };
 
-export const useDocumentTitle = (title: string, keepOnmount = true) => {
-  const oldTitle = document.title;
+export const useDocumentTitle = (title: string, keepOnUnmount = true) => {
+  const oldTitle = useRef(document.title).current;
+  // 页面加载时: 旧title
+  // 加载后：新title
 
   useEffect(() => {
     document.title = title;
-  });
+  }, [title]);
 
   useEffect(() => {
     return () => {
-      if (!keepOnmount) {
+      if (!keepOnUnmount) {
+        // 如果不指定依赖，读到的就是旧title
         document.title = oldTitle;
       }
     };
-  });
+  }, [keepOnUnmount, oldTitle]);
 };
