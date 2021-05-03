@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 import { useState } from "react";
 import { useProjects } from "../../utils/project";
-import { useDebounce } from "../../utils";
+import { useDebounce, useDocumentTitle } from "../../utils";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { useUsers } from "../../utils/user";
@@ -16,7 +16,9 @@ export const ProjectList = () => {
   const debouncedParam = useDebounce(param, 200);
 
   const { isLoading, data: list } = useProjects(debouncedParam);
-  const { data: users } = useUsers()
+  const { data: users } = useUsers();
+
+  useDocumentTitle("项目列表", false);
 
   return (
     <Container>
