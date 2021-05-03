@@ -7,6 +7,11 @@ export const isVoid = (value: unknown) =>
   value === undefined || value === null || value === "";
 
 // 在一个函数里，改变传入的对象本身是不好的
+/**
+ * `${apiUrl}/projects?name=${param.name}&personId=${param.personId}`
+ * 当搜索框为空时，url会出现歧义：http://localhost:3001/projects?name=&personId=
+ * 所以要创建一个清理对象空值的函数
+ */
 export const cleanObject = (obj: object) => {
   const result = { ...obj };
   Object.keys(result).forEach((key) => {

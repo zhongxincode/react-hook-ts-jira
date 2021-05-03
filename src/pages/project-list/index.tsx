@@ -1,9 +1,10 @@
 import styled from "@emotion/styled";
-import { useState, useEffect } from "react";
-import { cleanObject, useDebounce, useMount } from "../../utils";
-import { useHttp } from "../../utils/http";
+import { useState } from "react";
+import { useProjects } from "../../utils/project";
+import { useDebounce } from "../../utils";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
+import { useUsers } from "../../utils/user";
 
 export const ProjectList = () => {
   // 状态提升
@@ -11,36 +12,17 @@ export const ProjectList = () => {
     name: "",
     personId: "",
   });
-  const [users, setUsers] = useState([]);
-
-  const [list, setList] = useState([]);
 
   const debouncedParam = useDebounce(param, 200);
 
-  const client = useHttp();
-  // 当输入框改变，setParam就设置新的param值，
-  // param 一旦发生变化，useEffect就重新执行，请求list数据
-
-  /**
-   * `${apiUrl}/projects?name=${param.name}&personId=${param.personId}`
-   * 当搜索框为空时，url会出现歧义：http://localhost:3001/projects?name=&personId=
-   * 所以要创建一个清理对象空值的函数
-   */
-
-  useEffect(() => {
-    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [debouncedParam]);
-
-  useMount(() => {
-    client("users").then(setUsers);
-  });
+  const { isLoading, data: list } = useProjects(debouncedParam);
+  const { data: users } = useUsers()
 
   return (
     <Container>
       <h1>项目列表</h1>
-      <SearchPanel users={users} param={param} setParam={setParam} />
-      <List users={users} list={list} />
+      <SearchPanel users={users || []} param={param} setParam={setParam} />
+      <List users={users || []} dataSource={list || []} loading={isLoading} />
     </Container>
   );
 };

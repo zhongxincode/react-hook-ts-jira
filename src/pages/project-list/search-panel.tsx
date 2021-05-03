@@ -17,6 +17,8 @@ interface SearchPanelProps {
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 
+// 当输入框改变，setParam就设置新的param值，
+// param 一旦发生变化，useEffect就重新执行，请求list数据
 export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
   return (
     <Form style={{ marginBottom: "2rem" }} layout={"inline"}>
