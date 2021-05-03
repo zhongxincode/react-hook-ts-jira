@@ -47,7 +47,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // then(setUser)
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+  const logout = () => auth.logout().then(() => {
+    setUser(null)
+    // 修复在嵌套路由情况登出后url不改变的状况
+    window.location.href = window.location.origin
+  });
 
   useMount(() => {
     run(bootstrapUser());
