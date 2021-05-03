@@ -1,6 +1,7 @@
 import { useAuth } from "../context/auth-context";
 import { Form, Input } from "antd";
 import { LongButton } from ".";
+import { useAsync } from "../utils/use-async";
 
 // interface Base {
 //   id: number
@@ -17,12 +18,21 @@ import { LongButton } from ".";
 // const a = {id: 1, name: 'jack'}
 // test(a)
 
-export const Login = () => {
+export const Login = ({ onError }: { onError: (error: Error) => void }) => {
   const { login } = useAuth();
+
+  const { run, isLoading } = useAsync(undefined, {throwOnError: true});
 
   // HTMLFormElement extends Element
   const handleSubmit = (values: { username: string; password: string }) => {
-    login(values);
+    // 为什么不能用 useAsync 中的 error，涉及同步异步操作时需要用trycatch
+    // useAsync 中的 error 适合用在存异步的操作中
+    run(login(values)).catch(onError)
+    // try {
+    //   await run(login(values))
+    // } catch (error) {
+    //   onError(error)
+    // }
   };
   return (
     <Form onFinish={handleSubmit}>
@@ -39,7 +49,7 @@ export const Login = () => {
         <Input type="password" id={"password"} placeholder={"密码"} />
       </Form.Item>
       <Form.Item>
-        <LongButton htmlType={"submit"} type={"primary"}>
+        <LongButton loading={isLoading} htmlType={"submit"} type={"primary"}>
           登录
         </LongButton>
       </Form.Item>
