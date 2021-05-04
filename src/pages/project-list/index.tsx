@@ -4,7 +4,7 @@ import { useDebounce, useDocumentTitle } from "../../utils";
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { useUsers } from "../../utils/user";
-import { useUrlQueryParam } from "../../utils/url";
+import { useProjectsSearchParams } from "./util";
 
 // 状态提升
 
@@ -13,11 +13,10 @@ import { useUrlQueryParam } from "../../utils/url";
 
 export const ProjectList = () => {
 
-  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
+  const [param, setParam] = useProjectsSearchParams()
 
-  const debouncedParam = useDebounce(param, 200);
+  const { isLoading, data: list } = useProjects(useDebounce(param, 200));
 
-  const { isLoading, data: list } = useProjects(debouncedParam);
   const { data: users } = useUsers();
 
   useDocumentTitle("项目列表", false);
