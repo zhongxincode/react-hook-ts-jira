@@ -12,10 +12,9 @@ import { useProjectsSearchParams } from "./util";
 // https://codesandbox.io/s/keen-wave-tlz9s?file=/src/App.js
 
 export const ProjectList = () => {
+  const [param, setParam] = useProjectsSearchParams();
 
-  const [param, setParam] = useProjectsSearchParams()
-
-  const { isLoading, data: list } = useProjects(useDebounce(param, 200));
+  const { isLoading, retry, data: list } = useProjects(useDebounce(param, 200));
 
   const { data: users } = useUsers();
 
@@ -25,7 +24,12 @@ export const ProjectList = () => {
     <Container>
       <h1>项目列表</h1>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
-      <List users={users || []} dataSource={list || []} loading={isLoading} />
+      <List
+        users={users || []}
+        dataSource={list || []}
+        loading={isLoading}
+        refresh={retry}
+      />
     </Container>
   );
 };
