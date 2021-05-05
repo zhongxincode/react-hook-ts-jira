@@ -5,13 +5,15 @@ import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { useUsers } from "../../utils/user";
 import { useProjectsSearchParams } from "./util";
+import { Row } from "../../components/lib";
+import { Button } from "antd";
 
 // 状态提升
 
 // 基本类型，可以放到依赖里；组件状态，可以放到依赖里；非组件状态的对象，绝不可以放到依赖里
 // https://codesandbox.io/s/keen-wave-tlz9s?file=/src/App.js
 
-export const ProjectList = () => {
+export const ProjectList = (props: {setProjectModalOpen: (isOpen: boolean) => void}) => {
   const [param, setParam] = useProjectsSearchParams();
 
   const { isLoading, retry, data: list } = useProjects(useDebounce(param, 200));
@@ -22,13 +24,17 @@ export const ProjectList = () => {
 
   return (
     <Container>
-      <h1>项目列表</h1>
+      <Row between={true}>
+        <h1>项目列表</h1>
+        <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+      </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       <List
         users={users || []}
         dataSource={list || []}
         loading={isLoading}
         refresh={retry}
+        setProjectModalOpen={props.setProjectModalOpen}
       />
     </Container>
   );
