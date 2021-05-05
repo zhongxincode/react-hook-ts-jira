@@ -39,7 +39,7 @@ export const ProjectList = (props: {projectButton: JSX.Element}) => {
   );
 };
 
-ProjectList.whyDidYouRender = true;
+ProjectList.whyDidYouRender = false;
 
 const Container = styled.div`
   padding: 3.2rem;
