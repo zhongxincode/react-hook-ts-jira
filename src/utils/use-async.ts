@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useReducer, useState } from "react";
 import { useMountedRef } from "utils";
 
 interface State<D> {
@@ -13,34 +13,46 @@ const defaultInitialState: State<null> = {
   error: null,
 };
 
-export const useAsync = <D>(initialState?: State<D>) => {
-  const [state, setState] = useState<State<D>>({
-    ...defaultInitialState,
-    ...initialState,
-  });
-
+const useSafeDispatch = <T>(dispatch: (...args: T[]) => void) => {
   const mountedRef = useMountedRef();
+
+  return useCallback(
+    (...args: T[]) => (mountedRef.current ? dispatch(...args) : void 0),
+    [dispatch, mountedRef]
+  );
+};
+
+export const useAsync = <D>(initialState?: State<D>) => {
+  const [state, dispatch] = useReducer(
+    (state: State<D>, action: Partial<State<D>>) => ({ ...state, ...action }),
+    {
+      ...defaultInitialState,
+      ...initialState,
+    }
+  );
+
+  const safeDispatch = useSafeDispatch(dispatch);
 
   const [retry, setRetry] = useState(() => () => {});
 
   const setData = useCallback(
     (data: D) =>
-      setState({
+      safeDispatch({
         data,
         stat: "success",
         error: null,
       }),
-    []
+    [safeDispatch]
   );
 
   const setError = useCallback(
     (error: Error) =>
-      setState({
+      safeDispatch({
         error,
         stat: "error",
         data: null,
       }),
-    []
+    [safeDispatch]
   );
 
   const run = useCallback(
@@ -53,13 +65,12 @@ export const useAsync = <D>(initialState?: State<D>) => {
           run(runConfig?.retry(), runConfig);
         }
       });
-      setState((prevState) => ({ ...prevState, stat: "loading" }));
+      safeDispatch({ stat: "loading" });
       return (
         promise
           .then((data) => {
-            if (mountedRef.current) {
-              setData(data);
-            }
+            setData(data);
+
             return data;
           })
           // 在login页面中使用useAsync不能正确的显示异常？ catch会消化异常，如果不主动抛出，外面式接受不到异常的
@@ -69,7 +80,7 @@ export const useAsync = <D>(initialState?: State<D>) => {
           })
       );
     },
-    [mountedRef, setData, setError]
+    [setData, setError, safeDispatch]
   );
 
   return {
