@@ -5,7 +5,7 @@ import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import { useUsers } from "../../utils/user";
 import { useProjectModal, useProjectsSearchParams } from "./util";
-import { Row, ButtonNoPadding } from "../../components/lib";
+import { Row, ButtonNoPadding, ErrorBox } from "../../components/lib";
 
 // 状态提升
 
@@ -15,7 +15,7 @@ import { Row, ButtonNoPadding } from "../../components/lib";
 export const ProjectList = () => {
   const [param, setParam] = useProjectsSearchParams();
 
-  const { isLoading, retry, data: list } = useProjects(useDebounce(param, 200));
+  const { isLoading, data: list, error } = useProjects(useDebounce(param, 200));
 
   const { data: users } = useUsers();
 
@@ -32,12 +32,8 @@ export const ProjectList = () => {
         </ButtonNoPadding>
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
-      <List
-        users={users || []}
-        dataSource={list || []}
-        loading={isLoading}
-        refresh={retry}
-      />
+      <ErrorBox error={error} />
+      <List users={users || []} dataSource={list || []} loading={isLoading} />
     </Container>
   );
 };

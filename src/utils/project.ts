@@ -1,8 +1,6 @@
-import { useCallback, useEffect } from "react";
 import { Project } from "../pages/project-list/list";
-import { cleanObject } from ".";
 import { useHttp } from "./http";
-import { useAsync } from "./use-async";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 /**
  * 将projects的数据请求用 useHttp 和 useAsync 合并
@@ -12,54 +10,42 @@ import { useAsync } from "./use-async";
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
 
-  const { run, ...result } = useAsync<Project[]>();
-
-  const fetchProjects = useCallback(
-    () => client("projects", { data: cleanObject(param || {}) }),
-    [client, param]
+  // ['projects', param] 里面的内容一旦发生变化，函数就会自动触发
+  return useQuery<Project[]>(["projects", param], () =>
+    client("projects", { data: param })
   );
-  useEffect(() => {
-    run(fetchProjects(), { retry: fetchProjects });
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param, run, fetchProjects]);
-
-  return result;
 };
 
 // export const useEditProject = (id, param) => {
 // 这样会导致hook不在组件最顶层被调用
 export const useEditProject = () => {
-  const { run, ...asyncResult } = useAsync();
   const client = useHttp();
-  const mutate = (params: Partial<Project>) => {
-    return run(
-      client(`projects/${params.id}`, {
-        data: params,
-        method: "PATCH",
-      })
-    );
-  };
+  const queryClient = useQueryClient();
 
-  return {
-    mutate,
-    ...asyncResult,
-  };
+  return useMutation(
+    (params: Partial<Project>) =>
+      client(`projects/${params.id}`, {
+        method: "PATCH",
+        data: params,
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  );
 };
 
 export const useAddProject = () => {
-  const { run, ...asyncResult } = useAsync();
   const client = useHttp();
-  const mutate = (params: Partial<Project>) => {
-    return run(
-      client(`projects/${params.id}`, {
-        data: params,
-        method: "POST",
-      })
-    );
-  };
+  const queryClient = useQueryClient();
 
-  return {
-    mutate,
-    ...asyncResult,
-  };
+  return useMutation(
+    (params: Partial<Project>) =>
+      client(`projects/${params.id}`, {
+        method: "POST",
+        data: params,
+      }),
+    {
+      onSuccess: () => queryClient.invalidateQueries("projects"),
+    }
+  );
 };
