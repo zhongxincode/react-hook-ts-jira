@@ -26,6 +26,10 @@ import { cleanObject, subset } from ".";
   ] as const;
 };
 
+/**
+ * 清除多余的url参数
+ * @returns 
+ */
 export const useSetUrlSearchParam = () => {
   const [searchParams, setSearchParam] = useSearchParams();
   return (params: { [key in string]: unknown }) => {
