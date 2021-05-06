@@ -1,5 +1,4 @@
 import { useAuth } from "context/auth-context";
-import React, { useState } from "react";
 import styled from "@emotion/styled";
 import { ProjectListScreen } from "screens/project-list";
 import { ButtonNoPadding, Row } from "components/lib";
@@ -23,36 +22,14 @@ import { ProjectPopover } from "components/project-popover";
  * @returns
  */
 export const AuthenticateApp = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
   return (
     <Container>
-      <PageHeader
-        projectButton={
-          <ButtonNoPadding
-            type={"link"}
-            onClick={() => setProjectModalOpen(true)}
-          >
-            创建项目
-          </ButtonNoPadding>
-        }
-      />
+      <PageHeader />
       <Main>
         {/* <ProjectListScreen /> */}
         <Router>
           <Routes>
-            <Route
-              path={"/projects"}
-              element={
-                <ProjectListScreen projectButton={
-                  <ButtonNoPadding
-                    type={"link"}
-                    onClick={() => setProjectModalOpen(true)}
-                  >
-                    创建项目
-                  </ButtonNoPadding>
-                } />
-              }
-            />
+            <Route path={"/projects"} element={<ProjectListScreen />} />
             <Route
               path={"/projects/:projectId/*"}
               element={<ProjectScreen />}
@@ -61,24 +38,19 @@ export const AuthenticateApp = () => {
           </Routes>
         </Router>
       </Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      />
+      <ProjectModal />
     </Container>
   );
 };
 
-const PageHeader = (props: {
-  projectButton: JSX.Element
-}) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
         <ButtonNoPadding type={"link"} onClick={resetRoute}>
           <SoftwareLogo width={"18rem"} color={"rgb(38, 132, 25)"} />
         </ButtonNoPadding>
-        <ProjectPopover {...props}/>
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
