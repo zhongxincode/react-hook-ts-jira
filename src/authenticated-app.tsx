@@ -8,7 +8,6 @@ import { Navigate, Route, Routes } from "react-router";
 import { BrowserRouter as Router } from "react-router-dom";
 import { Project } from "./pages/project";
 import { resetRoute } from "./utils";
-import { useState } from "react";
 import { ProjectModal } from "./pages/project-list/project-modal";
 import { ProjectPopover } from "./components/project-popover";
 
@@ -25,54 +24,28 @@ import { ProjectPopover } from "./components/project-popover";
  */
 
 export const AuthenticatedApp = () => {
-  const [projectModalOpen, setProjectModalOpen] = useState(false);
-
   return (
     <Container>
-      <PageHeader
-        projectButton={
-          <ButtonNoPadding
-            type={"link"}
-            onClick={() => setProjectModalOpen(true)}
-          >
-            创建项目
-          </ButtonNoPadding>
-        }
-      />
-      <Main>
-        {/* 当下面的组件同样出现时，就会出现bug，useHref必须在Router中 */}
-        {/* <ProjectList/> */}
-        <Router>
+      <Router>
+        <PageHeader />
+        <Main>
+          {/* 当下面的组件同样出现时，就会出现bug，useHref必须在Router中 */}
+          {/* <ProjectList/> */}
+          {/* <Router> */}
           <Routes>
-            <Route
-              path={"/projects"}
-              element={
-                <ProjectList
-                  projectButton={
-                    <ButtonNoPadding
-                      type={"link"}
-                      onClick={() => setProjectModalOpen(true)}
-                    >
-                      创建项目
-                    </ButtonNoPadding>
-                  }
-                />
-              }
-            />
+            <Route path={"/projects"} element={<ProjectList />} />
             <Route path={"/projects/:projectId/*"} element={<Project />} />
             <Navigate to={"/projects"} />
           </Routes>
-        </Router>
-      </Main>
-      <ProjectModal
-        projectModalOpen={projectModalOpen}
-        onClose={() => setProjectModalOpen(false)}
-      />
+          {/* </Router> */}
+        </Main>
+        <ProjectModal />
+      </Router>
     </Container>
   );
 };
 
-const PageHeader = (props: { projectButton: JSX.Element }) => {
+const PageHeader = () => {
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -80,7 +53,7 @@ const PageHeader = (props: { projectButton: JSX.Element }) => {
           <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
         </ButtonNoPadding>
         {/* <img src={softwarelogo} alt="jira"/> */}
-        <ProjectPopover {...props} />
+        <ProjectPopover />
         <span>用户</span>
       </HeaderLeft>
       <HeaderRight>
