@@ -1,4 +1,3 @@
-import { Project } from "../pages/project-list/list";
 import { useHttp } from "./http";
 import { QueryKey, useMutation, useQuery } from "react-query";
 import {
@@ -6,6 +5,7 @@ import {
   useDeleteConfig,
   useEditConfig,
 } from "./use-optimistic-options";
+import { Project } from "../types/project";
 
 /**
  * 将projects的数据请求用 useHttp 和 useAsync 合并
