@@ -1,6 +1,7 @@
-import { useQuery } from "react-query";
+import { QueryKey, useMutation, useQuery } from "react-query";
 import { Kanban } from "../types/kanban";
 import { useHttp } from "./http";
+import { useAddConfig, useDeleteConfig } from "./use-optimistic-options";
 
 export const useKanbans = (param?: Partial<Kanban>) => {
   const client = useHttp();
@@ -8,5 +9,30 @@ export const useKanbans = (param?: Partial<Kanban>) => {
   // ['projects', param] 里面的内容一旦发生变化，函数就会自动触发
   return useQuery<Kanban[]>(["kanbans", param], () =>
     client("kanbans", { data: param })
+  );
+};
+
+export const useAddKanban = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    (params: Partial<Kanban>) =>
+      client(`kanbans`, {
+        data: params,
+        method: "POST",
+      }),
+    useAddConfig(queryKey)
+  );
+};
+
+export const useDeleteKanban = (queryKey: QueryKey) => {
+  const client = useHttp();
+
+  return useMutation(
+    ({ id }: { id: number }) =>
+      client(`kanbans/${id}`, {
+        method: "DELETE",
+      }),
+    useDeleteConfig(queryKey)
   );
 };
