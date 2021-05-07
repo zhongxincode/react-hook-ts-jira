@@ -1,4 +1,5 @@
 import React, { ReactNode } from "react";
+import { useQueryClient } from "react-query";
 import * as auth from "../auth-provider";
 import { FullPageErrorFallback, FullPageLoading } from "../components/lib";
 import { User } from "../pages/project-list/search-panel";
@@ -42,16 +43,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     run,
     setData: setUser,
   } = useAsync<User | null>();
+  const queryClient = useQueryClient();
+
   // then(user => setUser(user))
   // point free
   // then(setUser)
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => {
-    setUser(null)
-    // 修复在嵌套路由情况登出后url不改变的状况
-    window.location.href = window.location.origin
-  });
+  const logout = () =>
+    auth.logout().then(() => {
+      setUser(null);
+      queryClient.clear();
+      // 修复在嵌套路由情况登出后url不改变的状况
+      window.location.href = window.location.origin;
+    });
 
   useMount(() => {
     run(bootstrapUser());
