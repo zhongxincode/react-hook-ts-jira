@@ -63,7 +63,8 @@ export const KanbanColumn = React.forwardRef<
           direction={"vertical"}
           droppableId={String(kanban.id)}
         >
-          <DropChild>
+          {/* 添加一个style 解决没有任务的看板无法拖拽任务的bug 因为Drop 是靠 DropChild 撑起来的 */}
+          <DropChild style={{ minHeight: "5px" }}>
             {tasks?.map((task, taskIndex) => (
               <Drag
                 key={task.id}

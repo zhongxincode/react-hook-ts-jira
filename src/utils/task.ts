@@ -7,7 +7,7 @@ import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
-  useReorderConfig,
+  useReorderTaskConfig,
 } from "./use-optimistic-options";
 
 export const useTasks = (param?: Partial<Task>) => {
@@ -65,11 +65,11 @@ export const useDeleteTask = (queryKey: QueryKey) => {
 
 export const useReorderTask = (queryKey: QueryKey) => {
   const client = useHttp();
-  
+
   return useMutation((params: SortProps) => {
     return client("tasks/reorder", {
       data: params,
       method: "POST",
     });
-  }, useReorderConfig(queryKey));
+  }, useReorderTaskConfig(queryKey));
 };
