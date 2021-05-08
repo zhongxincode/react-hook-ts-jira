@@ -34,6 +34,8 @@ export const TaskModal = () => {
       cancelText: "取消",
       title: "确定删除任务吗",
       onOk() {
+        // 解决点击删除之后Modal不关闭的bug
+        close()
         return deleteTask({ id: Number(editingTaskId) });
       },
     });

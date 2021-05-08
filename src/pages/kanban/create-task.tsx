@@ -10,9 +10,13 @@ export const CreateTask = ({ kanbanId }: { kanbanId: number }) => {
   const [inputMode, setInputMode] = useState(false);
 
   const submit = async () => {
-    await addTask({ projectId, name, kanbanId });
+    // 交换位置后
+    // 解决出现两个task然后后面一个task消失的bug
     setInputMode(false);
     setName("");
+    await addTask({ projectId, name, kanbanId });
+    // setInputMode(false);
+    // setName("");
   };
 
   const toggle = () => setInputMode((mode) => !mode);
