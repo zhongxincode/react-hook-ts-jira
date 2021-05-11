@@ -10,6 +10,7 @@ import { Project } from "./pages/project";
 import { resetRoute } from "./utils";
 import { ProjectModal } from "./pages/project-list/project-modal";
 import { ProjectPopover } from "./components/project-popover";
+import { UserPopover } from "./components/user-popover";
 
 /**
  * grid 和 flex 各自的应用场景
@@ -54,7 +55,7 @@ const PageHeader = () => {
         </ButtonNoPadding>
         {/* <img src={softwarelogo} alt="jira"/> */}
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <User />

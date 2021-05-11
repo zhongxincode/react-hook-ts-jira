@@ -1,23 +1,12 @@
-import { useEffect } from "react";
-import { cleanObject } from ".";
+import { useQuery } from "react-query";
 import { User } from "../types/user";
 import { useHttp } from "./http";
-import { useAsync } from "./use-async";
 
-/**
- * 将users的数据请求用 useHttp 和 useAsync 合并
- * @param param 
- * @returns 
- */
 export const useUsers = (param?: Partial<User>) => {
   const client = useHttp();
 
-  const { run, ...result } = useAsync<User[]>();
-
-  useEffect(() => {
-    run(client("users", { data: cleanObject(param || {}) }));
-    //  eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [param]);
-
-  return result;
-}
+  // ['projects', param] 里面的内容一旦发生变化，函数就会自动触发
+  return useQuery<User[]>(["users", param], () =>
+    client("users", { data: param })
+  );
+};
