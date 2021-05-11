@@ -1,9 +1,9 @@
 import { Link } from "react-router-dom";
 import { Navigate, Route, Routes, useLocation } from "react-router";
 import { Kanban } from "../kanban";
-import { Epic } from "../epic";
 import styled from "@emotion/styled";
 import { Menu } from "antd";
+import { EpicScreen } from "../epic";
 
 const useRouteType = () => {
   const units = useLocation().pathname.split("/");
@@ -30,7 +30,7 @@ export const Project = () => {
           {/*projects/:projectId/kanban*/}
           <Route path={"/kanban"} element={<Kanban />} />
           {/*projects/:projectId/epic*/}
-          <Route path={"/epic"} element={<Epic />} />
+          <Route path={"/epic"} element={<EpicScreen />} />
           <Navigate to={window.location.pathname + "/kanban"} replace={true} />
         </Routes>
       </Main>
