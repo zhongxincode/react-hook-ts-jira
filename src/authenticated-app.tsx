@@ -24,7 +24,8 @@ import { UserPopover } from "./components/user-popover";
  *
  */
 
-export const AuthenticatedApp = () => {
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => {
   return (
     <Container>
       <Router>
