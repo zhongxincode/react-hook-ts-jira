@@ -6,6 +6,7 @@ import { SearchPanel } from "./search-panel";
 import { useUsers } from "../../utils/user";
 import { useProjectModal, useProjectsSearchParams } from "./util";
 import { Row, ButtonNoPadding, ErrorBox } from "../../components/lib";
+import { Profiler } from "../../components/profiler";
 
 // 状态提升
 
@@ -24,17 +25,19 @@ export const ProjectList = () => {
   useDocumentTitle("项目列表", false);
 
   return (
-    <Container>
-      <Row between={true}>
-        <h1>项目列表</h1>
-        <ButtonNoPadding type={"link"} onClick={open}>
-          创建项目
-        </ButtonNoPadding>
-      </Row>
-      <SearchPanel users={users || []} param={param} setParam={setParam} />
-      <ErrorBox error={error} />
-      <List users={users || []} dataSource={list || []} loading={isLoading} />
-    </Container>
+    <Profiler id={"项目列表"}>
+      <Container>
+        <Row between={true}>
+          <h1>项目列表</h1>
+          <ButtonNoPadding type={"link"} onClick={open}>
+            创建项目
+          </ButtonNoPadding>
+        </Row>
+        <SearchPanel users={users || []} param={param} setParam={setParam} />
+        <ErrorBox error={error} />
+        <List users={users || []} dataSource={list || []} loading={isLoading} />
+      </Container>
+    </Profiler>
   );
 };
 
